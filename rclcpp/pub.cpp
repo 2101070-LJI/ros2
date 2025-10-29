@@ -29,7 +29,6 @@ int main(int argc, char * argv[]){
         }
         RCLCPP_INFO(node->get_logger(), "Publish: %s",str.data.c_str());
         mypub->publish(message);
-        //rclcpp::spin_some(node);
     }
 
     rclcpp::shutdown();
