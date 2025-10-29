@@ -13,7 +13,7 @@ int main(int argc, char * argv[]){
     while(rclcpp::ok()){
         message.linear.x = 0; // 값 초기화
         message.angular.z = 0; // 값 초기화
-        
+        std::cout<<"입력>> ";
         std::cin>>str.data;
         if(str.data == "f"){ // 전진
             message.linear.x = 3;
