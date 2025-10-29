@@ -4,6 +4,12 @@
 #### //*********************************************************
 
 #//문제: 
+
+
 <img width="815" height="378" alt="image" src="https://github.com/user-attachments/assets/77585eba-3d1f-47a9-aa54-c2082cdb5169" />
+
+
+
+
 
 #//결과:
