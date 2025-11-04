@@ -12,10 +12,10 @@
 
 
 ## //결과:
-<img width="996" height="685" alt="image" src="https://github.com/user-attachments/assets/aad2d694-8170-408f-be91-8b2980e7c2dd" />
+<img width="831" height="200" alt="image" src="https://github.com/user-attachments/assets/8563aa60-781b-40f9-8cb1-4f9c30d652c8" />
 
 
-<img width="1136" height="362" alt="image" src="https://github.com/user-attachments/assets/73102fa5-b7b2-40ef-8a4d-0ee8639444f1" />
-
-
-<img width="513" height="533" alt="image" src="https://github.com/user-attachments/assets/8d25f0b4-d05f-446b-b43b-1365597c8392" />
+<img width="601" height="104" alt="image" src="https://github.com/user-attachments/assets/8f915af0-8da8-4015-a71e-e23999ae41e4" />
+HZ: 0.2xxx
+주기: 3.4 ~ 4.3
+엔터를 쳐야하만 이벤트가 발생하기 때문에 주기가 일정하지 않다.
