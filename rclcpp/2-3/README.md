@@ -18,6 +18,11 @@
 <img width="601" height="140" alt="image" src="https://github.com/user-attachments/assets/58426979-d2ba-47cc-8285-89434fb84b03" />
 
 
+HZ: 9.987
+
+
+주기: 0.1
+
 
 <img width="511" height="530" alt="image" src="https://github.com/user-attachments/assets/80d7a83c-8fce-48df-aa58-9996bcb53333" />
 
