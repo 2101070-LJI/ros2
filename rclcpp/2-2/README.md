@@ -16,6 +16,8 @@
 
 
 <img width="601" height="104" alt="image" src="https://github.com/user-attachments/assets/8f915af0-8da8-4015-a71e-e23999ae41e4" />
+
+
 HZ: 0.2xxx
 주기: 3.4 ~ 4.3
 엔터를 쳐야하만 이벤트가 발생하기 때문에 주기가 일정하지 않다.
