@@ -12,10 +12,9 @@
 
 
 ## //결과:
-<img width="996" height="685" alt="image" src="https://github.com/user-attachments/assets/aad2d694-8170-408f-be91-8b2980e7c2dd" />
+<img width="516" height="345" alt="image" src="https://github.com/user-attachments/assets/52bbbfe9-c3c1-4b63-bf3e-3ff155946cab" />
 
 
-<img width="1136" height="362" alt="image" src="https://github.com/user-attachments/assets/73102fa5-b7b2-40ef-8a4d-0ee8639444f1" />
+<img width="611" height="175" alt="image" src="https://github.com/user-attachments/assets/9e7c8262-1033-4b64-b87f-08016e4b237f" />
 
 
-<img width="513" height="533" alt="image" src="https://github.com/user-attachments/assets/8d25f0b4-d05f-446b-b43b-1365597c8392" />
