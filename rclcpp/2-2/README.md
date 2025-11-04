@@ -4,7 +4,7 @@
 #### //*********************************************************
 
 ## //문제: 
-<img width="629" height="362" alt="image" src="https://github.com/user-attachments/assets/fbadf4df-57b5-4684-8007-2c8c139a175d" />
+<img width="666" height="370" alt="image" src="https://github.com/user-attachments/assets/18329326-cc90-462c-8e3a-74934a5a07c5" />
 
 
 
