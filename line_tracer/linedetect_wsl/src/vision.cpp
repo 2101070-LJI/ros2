@@ -2,12 +2,11 @@
 
 CamSubNode::CamSubNode() 
 : Node("camsub_wsl7"), 
-  previousCenter_(-1, -1),
-  firstFrame_(true)
+  previousCenter_(-1, -1), 
+  firstFrame_(true), 
+  previousArea_(0) // 면적 0으로 시작
 {
-    // 생성자에서는 이제 OpenCV 창만 띄웁니다.
-    // 구독(Subscribe)은 여기서 하지 않습니다.
-    namedWindow("Original", WINDOW_AUTOSIZE);
+    namedWindow("Input Source", WINDOW_AUTOSIZE);
     namedWindow("Binary Tracking", WINDOW_AUTOSIZE);
 }
 
@@ -16,87 +15,111 @@ CamSubNode::~CamSubNode()
     destroyAllWindows();
 }
 
-// --------------------------------------------------------------------------
-// 아래 함수들은 로직은 그대로지만, mysub_callback 없이 독립적으로 존재합니다.
-// --------------------------------------------------------------------------
-
-void CamSubNode::preprocess(const Mat& source, Mat& binary_out, Mat& view_out)
+void CamSubNode::preprocess(const Mat& source)
 {
-    Mat gray;
-    cvtColor(source, gray, COLOR_BGR2GRAY);
+    Rect roi(0, source.rows * 3 / 4, source.cols, source.rows / 4);
+    Mat color_roi = source(roi);
+    cvtColor(color_roi, gray_, COLOR_BGR2GRAY);
 
-    Rect roi(0, gray.rows * 3 / 4, gray.cols, gray.rows / 4);
-    Mat resizedGray = gray(roi);
+    cv::Scalar m1 = cv::mean(gray_);
+    gray_ = gray_ + (100 - m1[0]);
 
-    threshold(resizedGray, binary_out, 0, 255, THRESH_BINARY | THRESH_OTSU);
-    cvtColor(binary_out, view_out, COLOR_GRAY2BGR);
+    threshold(gray_, binary_roi_, 0, 255, THRESH_BINARY | THRESH_OTSU);
+    cvtColor(binary_roi_, view_roi_, COLOR_GRAY2BGR);
 }
 
-double CamSubNode::process_tracking(const Mat& binary_roi, Mat& view_roi)
+double CamSubNode::process_tracking()
 {
-    Mat labelImage, stats, centroids;
-    int nLabels = connectedComponentsWithStats(binary_roi, labelImage, stats, centroids, 8, CV_32S);
+    int nLabels = connectedComponentsWithStats(binary_roi_, labelImage_, stats_, centroids_, 8, CV_32S);
 
     vector<Point> lineCenters;
+    vector<int> lineAreas; // 면적 정보도 같이 저장
+
     for (int i = 1; i < nLabels; i++) {
-        int x = stats.at<int>(i, CC_STAT_LEFT);
-        int y = stats.at<int>(i, CC_STAT_TOP);
-        int width = stats.at<int>(i, CC_STAT_WIDTH);
-        int height = stats.at<int>(i, CC_STAT_HEIGHT);
+        int area = stats_.at<int>(i, CC_STAT_AREA); // 면적 가져오기
+        
+        // 작은 노이즈 무시
+        if (area < 50) continue; 
 
-        Point center(centroids.at<double>(i, 0), centroids.at<double>(i, 1));
+        int x = stats_.at<int>(i, CC_STAT_LEFT);
+        int y = stats_.at<int>(i, CC_STAT_TOP);
+        int width = stats_.at<int>(i, CC_STAT_WIDTH);
+        int height = stats_.at<int>(i, CC_STAT_HEIGHT);
+
+        Point center(centroids_.at<double>(i, 0), centroids_.at<double>(i, 1));
+        
+        // 후보군 등록
         lineCenters.push_back(center);
+        lineAreas.push_back(area);
 
-        rectangle(view_roi, Rect(x, y, width, height), Scalar(255, 0, 0), 2);
-        circle(view_roi, center, 5, Scalar(255, 0, 0), -1);
+        // 시각화
+        rectangle(view_roi_, Rect(x, y, width, height), Scalar(255, 0, 0), 2);
+        circle(view_roi_, center, 5, Scalar(255, 0, 0), -1);
     }
 
-    const double MAX_DISTANCE = 50.0;
+    const double MAX_DISTANCE = 100.0;
     double error = 0.0;
-    Point centerOfImage(binary_roi.cols / 2, binary_roi.rows / 2);
+    Point centerOfImage(binary_roi_.cols / 2, binary_roi_.rows / 2);
 
+    // 처음
     if (firstFrame_ && !lineCenters.empty()) {
         double minDistance = DBL_MAX;
-        Point closestCenter;
-        for (const auto& center : lineCenters) {
-            double distance = norm(center - centerOfImage);
+        int bestIdx = -1;
+
+        for (size_t i = 0; i < lineCenters.size(); i++) {
+            double distance = norm(lineCenters[i] - centerOfImage);
             if (distance < minDistance) {
                 minDistance = distance;
-                closestCenter = center;
+                bestIdx = i;
             }
         }
-        previousCenter_ = closestCenter;
-        firstFrame_ = false;
         
-        rectangle(view_roi, Rect(closestCenter.x - 10, closestCenter.y - 10, 20, 20), Scalar(0, 0, 255), 2);
-        error = centerOfImage.x - closestCenter.x;
+        if (bestIdx != -1) {
+            previousCenter_ = lineCenters[bestIdx];
+            previousArea_ = lineAreas[bestIdx]; // 찾은 라인의 면적 기억
+            firstFrame_ = false;
+            
+            error = centerOfImage.x - previousCenter_.x;
+            rectangle(view_roi_, Rect(previousCenter_.x - 10, previousCenter_.y - 10, 20, 20), Scalar(0, 0, 255), 2);
+        }
     }
+    // 두번째
     else if (previousCenter_.x != -1 && !lineCenters.empty()) {
         double minDistance = DBL_MAX;
-        Point closestCenter;
+        int bestIdx = -1;
         bool found = false;
-        for (const auto& center : lineCenters) {
-            double distance = norm(center - previousCenter_);
-            if (distance < minDistance && distance < MAX_DISTANCE) {
+
+        for (size_t i = 0; i < lineCenters.size(); i++) {
+            double distance = norm(lineCenters[i] - previousCenter_);
+            
+            // 이전 크기의 0.5배 ~ 5배 사이여야 인정
+            bool isSizeSimilar = (lineAreas[i] > previousArea_ * 0.5) && (lineAreas[i] < previousArea_ * 5);
+
+            if (distance < minDistance && distance < MAX_DISTANCE && isSizeSimilar) {
                 minDistance = distance;
-                closestCenter = center;
+                bestIdx = i;
                 found = true;
             }
         }
+
         if (found) {
-            previousCenter_ = closestCenter;
-            error = centerOfImage.x - closestCenter.x;
-            rectangle(view_roi, Rect(closestCenter.x - 10, closestCenter.y - 10, 20, 20), Scalar(0, 0, 255), 2);
+            previousCenter_ = lineCenters[bestIdx];
+            previousArea_ = lineAreas[bestIdx]; // 현재 라인 면적으로 업데이트
+            error = centerOfImage.x - previousCenter_.x;
+            
+            rectangle(view_roi_, Rect(previousCenter_.x - 10, previousCenter_.y - 10, 20, 20), Scalar(0, 0, 255), 2);
         } else {
-            rectangle(view_roi, Rect(previousCenter_.x - 10, previousCenter_.y - 10, 20, 20), Scalar(0, 0, 255), 2);
+            // 못 찾았으면 이전 위치 유지
+            rectangle(view_roi_, Rect(previousCenter_.x - 10, previousCenter_.y - 10, 20, 20), Scalar(0, 0, 255), 2);
         }
     }
+    
     return error;
 }
 
-void CamSubNode::display_result(const Mat& original, const Mat& result_view)
+void CamSubNode::display_result(const Mat& source)
 {
-    imshow("Original", original);
-    imshow("Binary Tracking", result_view);
+    imshow("Input Source", source);
+    imshow("Binary Tracking", view_roi_);
     waitKey(1);
 }
