@@ -12,16 +12,14 @@ CamPubNode::CamPubNode(
 {
     // QoS 설정 (기본: RELIABLE)
     qos_profile_ = rclcpp::QoS(rclcpp::KeepLast(10));
-    // 필요하면 best_effort()로 변경 가능:
-    // qos_profile_ = rclcpp::QoS(rclcpp::KeepLast(10)).best_effort();
 
     // 압축 이미지 퍼블리셔 생성
     publisher_ = this->create_publisher<sensor_msgs::msg::CompressedImage>(
         topic_name, qos_profile_);
 
-    // 비디오 소스 열기 (지금은 파일)
+    // 비디오 소스 열기
     cap_.open(video_source_);
-    // 만약 Jetson 카메라 GStreamer 파이프라인을 쓰고 싶으면:
+    // Jetson 카메라 GStreamer 
     // std::string src = "nvarguscamerasrc sensor-id=0 ! "
     //     "video/x-raw(memory:NVMM), width=(int)640, height=(int)360, "
     //     "format=(string)NV12 ! nvvidconv flip-method=0 ! video/x-raw, "
