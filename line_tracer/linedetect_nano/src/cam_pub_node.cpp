@@ -4,9 +4,9 @@ CamPubNode::CamPubNode(
     const std::string & node_name,
     const std::string & topic_name,
     const std::string & video_source)
-: Node(node_name),              // 1. 부모 노드 이름 초기화
+: Node(node_name),               
   qos_profile_(10), 
-  video_source_(video_source)   // 3. 멤버 변수에 영상 경로 저장
+  video_source_(video_source)   
 {
     // QoS 설정
     qos_profile_ = rclcpp::QoS(rclcpp::KeepLast(10));
