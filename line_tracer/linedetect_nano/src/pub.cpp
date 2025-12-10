@@ -1,5 +1,5 @@
 #include "rclcpp/rclcpp.hpp"
-#include "linedetect_nano/cam_pub_node.hpp"
+#include "pubpub/cam_pub_node.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -8,7 +8,7 @@ int main(int argc, char * argv[])
     // 생성자에 인자 3개를 직접 전달하여 노드 생성
     auto node = std::make_shared<CamPubNode>(
         "campub7",                               // 1. 노드 이름
-        "image/compressed_5",                                // 2. 토픽 이름
+        "image/compressed_7",                                // 2. 토픽 이름
         "/home/linux/simulation/5_lt_cw_100rpm_out.mp4"  // 3. 비디오 경로
     );
 
