@@ -14,13 +14,22 @@ public:
     CamSubNode();
     ~CamSubNode();
 
-    void preprocess(const Mat& source, Mat& binary_out, Mat& view_out);
-    double process_tracking(const Mat& binary_roi, Mat& view_roi);
-    void display_result(const Mat& original, const Mat& result_view);
+    void preprocess(const Mat& source); 
+    double process_tracking();          
+    void display_result(const Mat& source);
 
 private:
     Point previousCenter_;
     bool firstFrame_;
+
+    // 이전 프레임의 라인 면적을 기억하는 변수
+    int previousArea_; 
+
+    // 멤버 변수
+    Mat gray_;
+    Mat binary_roi_;
+    Mat view_roi_;
+    Mat labelImage_, stats_, centroids_;
 };
 
 #endif
