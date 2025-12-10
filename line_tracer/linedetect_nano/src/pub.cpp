@@ -9,7 +9,7 @@ int main(int argc, char * argv[])
     auto node = std::make_shared<CamPubNode>(
         "campub7",                               // 1. 노드 이름
         "image/compressed_7",                                // 2. 토픽 이름
-        "/home/linux/simulation/5_lt_cw_100rpm_out.mp4"  // 3. 비디오 경로
+        "/home/linux/simulation/7_lt_ccw_100rpm_in.mp4"  // 3. 비디오 경로
     );
 
     // 루프 주기 설정 (30Hz)
