@@ -7,8 +7,8 @@
 # 실행 결과
 - outline검출
 
-https://youtu.be/fm2HYrkYBcg
+  https://youtu.be/fm2HYrkYBcg
 
 - inline검출
 
-https://youtu.be/VMHc8AGqXhk
+  https://youtu.be/VMHc8AGqXhk
