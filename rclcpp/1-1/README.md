@@ -5,13 +5,15 @@
 
 ## //문제: 
 
+std_msgs/Int32 타입의 데이터를 1Hz 주기로 topic_pub1_1 토픽에 발행하는 Publisher 노드를 작성하세요.
 
-std_msgs/Int32 타입의 데이터를 1Hz 주기로 topic_pub1_1 토픽에 발행하는 Publisher 노드를 작성하세요. - 노드명: node_pub1_1 - 토픽명: topic_pub1_1 - 메시지 타입: Int32 - 발행 주기: 1Hz - QoS: KeepLast(10) - 발행되는 데이터: 0부터 시작하여 1씩 증가하는 정수
-
-
-
-
-
+주의사항:
+노드명: node_pub1_1
+토픽명: topic_pub1_1
+메시지 타입: Int32
+발행 주기: 1Hz
+QoS: KeepLast(10)
+발행되는 데이터: 0부터 시작하여 1씩 증가하는 정수
 
 ## //결과:
 
