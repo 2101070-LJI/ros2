@@ -14,3 +14,4 @@ Subscriber 노드명 (모터): node_dxlsub
 키 입력: f(전진), b(후진), l(좌), r(우), s/스페이스(정지)
 
 ## //결과:
+<img width="896" height="500" alt="image" src="https://github.com/user-attachments/assets/7edd4279-af33-47d2-b1a7-8e4d0e73ed7d" />
