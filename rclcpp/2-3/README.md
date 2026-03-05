@@ -7,13 +7,13 @@
 
 Twist 메시지를 /turtle1/cmd_vel 토픽에 100ms 주기로 발행하는 Publisher 노드를 작성하세요.
 
-주의사항:
-노드명: mynode
-토픽명: /turtle1/cmd_vel
-메시지 타입: Twist
-발행 주기: 100ms (타이머 콜백)
-QoS: KeepLast(10)
-발행되는 데이터: linear.x=2, angular.z=2
+**주의사항:**
+- 노드명: mynode
+- 토픽명: /turtle1/cmd_vel
+- 메시지 타입: Twist
+- 발행 주기: 100ms (타이머 콜백)
+- QoS: KeepLast(10)
+- 발행되는 데이터: linear.x=2, angular.z=2
 
 ## //결과:
 
