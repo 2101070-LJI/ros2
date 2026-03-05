@@ -12,3 +12,4 @@ Dynamixel 모터를 제어하는 ROS2 노드를 작성하세요.
 동작: 0에서 400까지 증가 → 400에서 -400까지 감소 → 반복
 
 ## //결과:
+<img width="858" height="559" alt="image" src="https://github.com/user-attachments/assets/849e2f21-7498-4b82-a2c6-a122d84d5132" />
