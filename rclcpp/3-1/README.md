@@ -4,7 +4,15 @@
 #### //*********************************************************
 
 ## //문제: 
-<img width="875" height="329" alt="image" src="https://github.com/user-attachments/assets/4650fd06-03d8-4088-8ac5-825d207c498d" />
+String 타입의 메시지를 mytopic 토픽에 100ms 주기로 발행하는 Publisher 노드를 작성하세요.
+
+주의사항:
+- 노드명: node_pub1
+- - 토픽명: mytopic
+  - - 메시지 타입: String
+    - - 발행 주기: 100ms (타이머 콜백)
+      - - QoS: KeepLast(10)
+        - - 발행되는 데이터: "Hello World!!"
 
 
 
