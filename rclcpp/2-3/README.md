@@ -4,7 +4,15 @@
 #### //*********************************************************
 
 ## //문제: 
-<img width="668" height="392" alt="image" src="https://github.com/user-attachments/assets/0a55e205-9c4a-4895-a93d-d8c0c661a621" />
+Twist 메시지를 /turtle1/cmd_vel 토픽에 100ms 주기로 발행하는 Publisher 노드를 작성하세요.
+
+주의사항:
+- 노드명: mynode
+- - 토픽명: /turtle1/cmd_vel
+  - - 메시지 타입: Twist
+    - - 발행 주기: 100ms (타이머 콜백)
+      - - QoS: KeepLast(10)
+        - - 발행되는 데이터: linear.x=2, angular.z=2
 
 
 
