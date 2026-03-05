@@ -6,7 +6,7 @@
 ## //문제: 
 
 
-<img width="631" height="292" alt="image" src="https://github.com/user-attachments/assets/f6e4be86-d028-4a0e-aa30-057433fa3cb8" />
+std_msgs/Int32 타입의 데이터를 1Hz 주기로 topic_pub1_1 토픽에 발행하는 Publisher 노드를 작성하세요. - 노드명: node_pub1_1 - 토픽명: topic_pub1_1 - 메시지 타입: Int32 - 발행 주기: 1Hz - QoS: KeepLast(10) - 발행되는 데이터: 0부터 시작하여 1씩 증가하는 정수
 
 
 
